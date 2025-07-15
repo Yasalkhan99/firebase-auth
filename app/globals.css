@@ -40,3 +40,19 @@ a {
     color-scheme: dark;
   }
 }
+
+.nav-link {
+  transition: background 0.2s, color 0.2s;
+}
+.nav-link[href="/signup"]:hover {
+  background: #e0f2fe;
+  color: #6366f1;
+}
+.nav-link[href="/login"]:hover {
+  background: #ede9fe;
+  color: #0ea5e9;
+}
+.nav-link[href="/dashboard"]:hover {
+  background: #fff7ed;
+  color: #6366f1;
+}

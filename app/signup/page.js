@@ -104,7 +104,7 @@ export default function SignUpPage() {
           {loading ? "Signing up..." : "Sign Up"}
         </button>
         <div style={{ marginTop: 10, fontSize: 15 }}>
-          Already have an account? <a href="/login" style={{ color: "#0ea5e9", fontWeight: 600 }}>Login</a>
+          Already have an account? <a href="/login" style={{ color: "#000", fontWeight: 600 }}>Login</a>
         </div>
       </form>
     </div>
