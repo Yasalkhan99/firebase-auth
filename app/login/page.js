@@ -55,21 +55,22 @@ export default function LoginPage() {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      background: "linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%)",
+      background: "#0f0f23",
     }}>
       <form
         onSubmit={handleEmailLogin}
         style={{
-          background: "#fff",
+          background: "#18182a",
           borderRadius: 16,
-          boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.32)",
           padding: 36,
           maxWidth: 400,
           width: "100%",
-          textAlign: "center"
+          textAlign: "center",
+          border: "1px solid #23233a"
         }}
       >
-        <h2 style={{ fontSize: 28, fontWeight: 700, color: "#6366f1", marginBottom: 18 }}>Login</h2>
+        <h2 style={{ fontSize: 28, fontWeight: 700, color: "#a5b4fc", marginBottom: 18 }}>Login</h2>
         <input
           type="email"
           placeholder="Email"
@@ -77,7 +78,7 @@ export default function LoginPage() {
           onChange={e => setEmail(e.target.value)}
           required
           style={{
-            width: "100%", padding: 12, marginBottom: 14, borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 16
+            width: "100%", padding: 12, marginBottom: 14, borderRadius: 8, border: "1px solid #23233a", fontSize: 16, background: "#23233a", color: "#fff"
           }}
         />
         <input
@@ -87,7 +88,7 @@ export default function LoginPage() {
           onChange={e => setPassword(e.target.value)}
           required
           style={{
-            width: "100%", padding: 12, marginBottom: 18, borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 16
+            width: "100%", padding: 12, marginBottom: 18, borderRadius: 8, border: "1px solid #23233a", fontSize: 16, background: "#23233a", color: "#fff"
           }}
         />
         {error && <div style={{ color: "#ef4444", marginBottom: 12 }}>{error}</div>}
@@ -104,7 +105,8 @@ export default function LoginPage() {
             fontWeight: 700,
             fontSize: 16,
             marginBottom: 10,
-            cursor: loading ? "not-allowed" : "pointer"
+            cursor: loading ? "not-allowed" : "pointer",
+            boxShadow: "0 2px 8px rgba(99,102,241,0.10)"
           }}
         >
           {loading ? "Logging in..." : "Login"}
@@ -123,13 +125,14 @@ export default function LoginPage() {
             fontWeight: 700,
             fontSize: 16,
             marginBottom: 10,
-            cursor: loading ? "not-allowed" : "pointer"
+            cursor: loading ? "not-allowed" : "pointer",
+            boxShadow: "0 2px 8px rgba(234,67,53,0.10)"
           }}
         >
           {loading ? "Please wait..." : "Sign in with Google"}
         </button>
-        <div style={{ marginTop: 10, fontSize: 15 }}>
-          Don't have an account? <a href="/signup" style={{ color: "#0ea5e9", fontWeight: 600 }}>Sign Up</a>
+        <div style={{ marginTop: 10, fontSize: 15, color: "#a0a0a0" }}>
+          Don't have an account? <a href="/signup" style={{ color: "#38bdf8", fontWeight: 600 }}>Sign Up</a>
         </div>
       </form>
     </div>
