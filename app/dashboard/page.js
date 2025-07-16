@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 // Real-time data simulation
 const getCurrentTime = () => new Date().toLocaleString();
@@ -44,6 +45,10 @@ export default function DashboardPage() {
   });
   const [deviceInfo, setDeviceInfo] = useState("");
   const [ip, setIp] = useState("");
+  const [showReset, setShowReset] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetMsg, setResetMsg] = useState("");
+  const [resetError, setResetError] = useState("");
 
   useEffect(() => {
     if (!loading && !user) {
@@ -99,6 +104,17 @@ export default function DashboardPage() {
     a.href = url;
     a.download = 'user-data.json';
     a.click();
+  };
+
+  const handleReset = async () => {
+    setResetMsg("");
+    setResetError("");
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      setResetMsg("Password reset email sent!");
+    } catch (err) {
+      setResetError(err.message);
+    }
   };
 
   if (loading) return (

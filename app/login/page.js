@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 
@@ -10,6 +10,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showReset, setShowReset] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetMsg, setResetMsg] = useState("");
+  const [resetError, setResetError] = useState("");
   const router = useRouter();
 
   const handleEmailLogin = async (e) => {
@@ -46,6 +50,17 @@ export default function LoginPage() {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleReset = async () => {
+    setResetMsg("");
+    setResetError("");
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      setResetMsg("Password reset email sent!");
+    } catch (err) {
+      setResetError(err.message);
     }
   };
 
@@ -131,6 +146,55 @@ export default function LoginPage() {
         >
           {loading ? "Please wait..." : "Sign in with Google"}
         </button>
+        <div style={{ marginTop: 8 }}>
+          <button
+            type="button"
+            onClick={() => setShowReset(!showReset)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#38bdf8",
+              cursor: "pointer",
+              fontWeight: 600,
+              fontSize: 15,
+              textDecoration: "underline"
+            }}
+          >
+            Forgot Password?
+          </button>
+        </div>
+        {showReset && (
+          <div style={{ marginTop: 16 }}>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={resetEmail}
+              onChange={e => setResetEmail(e.target.value)}
+              style={{
+                width: "100%", padding: 10, borderRadius: 8, border: "1px solid #23233a", background: "#23233a", color: "#fff", marginBottom: 8
+              }}
+            />
+            <button
+              type="button"
+              onClick={handleReset}
+              style={{
+                width: "100%",
+                padding: 10,
+                background: "linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%)",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                fontWeight: 700,
+                fontSize: 15,
+                cursor: "pointer"
+              }}
+            >
+              Send Reset Email
+            </button>
+            {resetMsg && <div style={{ color: "#22c55e", marginTop: 8 }}>{resetMsg}</div>}
+            {resetError && <div style={{ color: "#ef4444", marginTop: 8 }}>{resetError}</div>}
+          </div>
+        )}
         <div style={{ marginTop: 10, fontSize: 15, color: "#a0a0a0" }}>
           Don't have an account? <a href="/signup" style={{ color: "#38bdf8", fontWeight: 600 }}>Sign Up</a>
         </div>
