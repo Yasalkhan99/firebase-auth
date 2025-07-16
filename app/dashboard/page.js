@@ -42,6 +42,8 @@ export default function DashboardPage() {
     timezone: "UTC-5",
     language: "English"
   });
+  const [deviceInfo, setDeviceInfo] = useState("");
+  const [ip, setIp] = useState("");
 
   useEffect(() => {
     if (!loading && !user) {
@@ -55,6 +57,14 @@ export default function DashboardPage() {
       setCurrentTime(getCurrentTime());
     }, 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    setDeviceInfo(navigator.userAgent);
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => setIp(data.ip))
+      .catch(() => setIp("Unknown"));
   }, []);
 
   const handleProfileUpdate = async () => {
@@ -207,6 +217,32 @@ export default function DashboardPage() {
                 <div style={{ fontSize: 14, color: "#a0a0a0", marginBottom: 8 }}>Last Login</div>
                 <div style={{ fontWeight: 700, fontSize: 20, color: "#6366f1" }}>Just now</div>
               </div>
+            </div>
+
+            {/* Current Session Info Table */}
+            <div style={{
+              background: "#1a1a2e",
+              borderRadius: 12,
+              padding: 20,
+              marginBottom: 24,
+              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+              border: "1px solid #2d2d44"
+            }}>
+              <div style={{ fontWeight: 700, fontSize: 18, color: "#6366f1", marginBottom: 16 }}>
+                🖥️ Current Session Info
+              </div>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 15, background: "#18182a", color: "#f4f4f5", borderRadius: 8 }}>
+                <tbody>
+                  <tr style={{ borderBottom: "1px solid #23233a" }}>
+                    <td style={{ padding: "10px 12px", color: "#a0a0a0", fontWeight: 600, width: 120 }}>IP Address</td>
+                    <td style={{ padding: "10px 12px" }}>{ip}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: "10px 12px", color: "#a0a0a0", fontWeight: 600 }}>Device</td>
+                    <td style={{ padding: "10px 12px" }}>{deviceInfo}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
             {/* Action Buttons */}
