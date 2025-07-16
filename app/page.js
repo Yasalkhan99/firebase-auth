@@ -67,19 +67,6 @@ export default function Home() {
           }}>Login</a>
         </div>
       </div>
-      {/* Footer */}
-      <footer style={{
-        width: "100%",
-        textAlign: "center",
-        color: "#a0a0a0",
-        fontSize: 15,
-        padding: "32px 0 12px 0",
-        background: "#18182a",
-        borderTop: "1px solid #23233a",
-        marginTop: 48
-      }}>
-        &copy; {new Date().getFullYear()} Firebase Authenticator Demo
-      </footer>
     </div>
   );
 }
