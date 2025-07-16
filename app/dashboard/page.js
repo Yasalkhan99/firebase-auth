@@ -49,6 +49,7 @@ export default function DashboardPage() {
   const [resetEmail, setResetEmail] = useState("");
   const [resetMsg, setResetMsg] = useState("");
   const [resetError, setResetError] = useState("");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -114,6 +115,12 @@ export default function DashboardPage() {
       setResetMsg("Password reset email sent!");
     } catch (err) {
       setResetError(err.message);
+    }
+  };
+
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      logout();
     }
   };
 
@@ -188,7 +195,7 @@ export default function DashboardPage() {
             }}>
               🔔 Notifications ({notifications.filter(n => !n.read).length})
             </button>
-            <button onClick={logout} style={{
+            <button onClick={() => setShowLogoutModal(true)} style={{
               padding: "8px 16px", background: "#ef4444", color: "#fff", border: "none",
               borderRadius: 6, fontWeight: 600, cursor: "pointer"
             }}>
@@ -484,6 +491,67 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+      {/* Custom Logout Modal */}
+      {showLogoutModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          background: "rgba(15,15,35,0.85)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: "#18182a",
+            borderRadius: 14,
+            padding: 36,
+            minWidth: 320,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.32)",
+            border: "1px solid #23233a",
+            textAlign: "center"
+          }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#a5b4fc", marginBottom: 18 }}>
+              Are you sure you want to logout?
+            </div>
+            <div style={{ display: "flex", gap: 18, justifyContent: "center" }}>
+              <button
+                onClick={() => { setShowLogoutModal(false); logout(); }}
+                style={{
+                  padding: "10px 28px",
+                  background: "linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 8,
+                  fontWeight: 700,
+                  fontSize: 16,
+                  cursor: "pointer"
+                }}
+              >
+                Yes, Logout
+              </button>
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                style={{
+                  padding: "10px 28px",
+                  background: "#23233a",
+                  color: "#a0a0a0",
+                  border: "1px solid #23233a",
+                  borderRadius: 8,
+                  fontWeight: 700,
+                  fontSize: 16,
+                  cursor: "pointer"
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
